@@ -1,0 +1,15 @@
+{
+  "name": "pugpizza",
+  "version": "1.0.0",
+  "description": "Bot de messenger para nuestra pizzeria",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bot",
+    "messenger"
+  ],
+  "author": "John Serrano <jandreys15@gmail.com> (https://twitter.com/Jandrey15)",
+  "license": "MIT"
+}
