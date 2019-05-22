@@ -22,6 +22,17 @@ app.get('/webhook', (req, res) => {
   }
 })
 
+app.post('/webhook/', (req, res) => {
+  const webhook_event = req.body.entry[0]
+  if(webhook_event.messaging) {
+    webhook_event.messaging.forEach(event => {
+      console.log(event)
+    })
+  }
+
+  res.sendStatus(200)
+})
+
 app.listen(app.get('port'), () => {
   console.log(`Server on port ${app.get('port')} - http://localhost:${app.get('port')}/`)
 })
