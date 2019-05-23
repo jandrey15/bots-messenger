@@ -39,7 +39,7 @@ app.post('/webhook/', (req, res) => {
 const handleEvent = (senderId, event) => {
   if (event.message) {
     if (event.message.quick_reply) {
-      handlePostBack(senderId, event.message.quick_reply.payload);
+      handlePostBack(senderId, event.message.quick_reply.payload)
     } else {
       handleMessage(senderId, event.message)
     }
@@ -88,6 +88,8 @@ const handlePostBack = (senderId, payload) => {
     case 'GET_STARTED_PUGPIZZA':
       console.log(payload)
       break
+    case 'PIZZAS_PAYLOAD':
+      showPizzas(senderId)
     default:
       console.log(payload)
       break
@@ -142,6 +144,50 @@ const callSendApi = (response) => {
       console.log('Mensaje enviado')
     }
   })
+}
+
+const showPizzas = (senderId) => {
+  const messageData = {
+    recipient: {
+      id: senderId
+    },
+    message: {
+      attachment: {
+        type: 'template',
+        payload: {
+          template_type: 'generic',
+          elements: [
+            {
+              title: 'Peperoni',
+              subtitle: 'Con todo el sabor del peperoni',
+              image_url: 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
+              buttons: [
+                {
+                  type: 'postback',
+                  title: 'Elegir Pepperoni',
+                  payload: 'PEPPERONI_PAYLOAD',
+                }
+              ]
+            },
+            {
+              title: 'Pollo BBQ',
+              subtitle: 'Con todo el sabor del BBQ',
+              image_url: 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
+              buttons: [
+                {
+                  type: 'postback',
+                  title: 'Elegir Pollo BBQ',
+                  payload: 'BBQ_PAYLOAD',
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+
+  callSendApi(messageData)
 }
 
 app.listen(app.get('port'), () => {
