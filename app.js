@@ -66,14 +66,14 @@ const defaultMessage = (senderId) => {
       text: 'Hola soy un bot de messenger y te invito a utilizar nuestro menu',
       quick_replies: [
         {
-          "content_type": "text",
-          "title": "¿Quieres una Pizza?",
-          "payload": "PIZZAS_PAYLOAD"
+          'content_type': 'text',
+          'title': '¿Quieres una Pizza?',
+          'payload': 'PIZZAS_PAYLOAD'
         },
         {
-          "content_type": "text",
-          "title": "Acerca de",
-          "payload": "ABOUT_PAYLOAD"
+          'content_type': 'text',
+          'title': 'Acerca de',
+          'payload': 'ABOUT_PAYLOAD'
         }
       ]
     }
@@ -90,6 +90,10 @@ const handlePostBack = (senderId, payload) => {
       break
     case 'PIZZAS_PAYLOAD':
       showPizzas(senderId)
+      break
+    case 'PEPPERONI_PAYLOAD':
+      sizePizza(senderId)
+      break
     default:
       console.log(payload)
       break
@@ -188,6 +192,51 @@ const showPizzas = (senderId) => {
   }
 
   callSendApi(messageData)
+}
+
+const sizePizza = (senderId) => {
+  const messageData = {
+    recipient: {
+      id: senderId
+    },
+    message: {
+      attachment: {
+        'type': 'template',
+        'payload': {
+          'template_type': 'list',
+          'top_element_style': 'compact',
+          'elements': [
+            {
+              'title': 'Individual',
+              'image_url': 'https://api-content.prod.pizzahutaustralia.com.au//umbraco/api/Image/Get2?path=assets/products/menu/Meat-Super-Supreme-Pizza-3250-menu.jpg',
+              'subtitle': 'Porcion Individual de pizza',
+              'buttons': [
+                {
+                  'type': 'postback',
+                  'title': 'Elegir Individual',
+                  'payload': 'PERSONAL_SIZE_PAYLOAD',
+                }
+              ]
+            },
+            {
+              'title': 'Mediana',
+              'image_url': 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
+              'subtitle': 'Porcion Mediana de pizza',
+              'buttons': [
+                {
+                  'type': 'postback',
+                  'title': 'Elegir Mediana',
+                  'payload': 'MEDIUM_SIZE_PAYLOAD',
+                }
+              ]
+            }
+          ] // Se aconceja no tener mas de 4 elements
+        }
+      }
+    }
+  }
+
+  callSendApi(messageData);
 }
 
 app.listen(app.get('port'), () => {
