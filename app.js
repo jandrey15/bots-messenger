@@ -38,9 +38,14 @@ app.post('/webhook/', (req, res) => {
 
 const handleEvent = (senderId, event) => {
   if (event.message) {
-    handleMessage(senderId, event.message)
+    if (event.message.quick_reply) {
+      handlePostBack(senderId, event.message.quick_reply.payload);
+    } else {
+      handleMessage(senderId, event.message)
+    }
+    // handleMessage(senderId, event.message)
   } else if(event.postback) {
-    handlePostback(senderId, event.postback.payload)
+    handlePostBack(senderId, event.postback.payload)
   }
 }
 
@@ -58,21 +63,45 @@ const defaultMessage = (senderId) => {
       id: senderId
     },
     'message': {
-      text: 'Hola soy un bot de messenger y te invito a utilizar nuestro menu'
+      text: 'Hola soy un bot de messenger y te invito a utilizar nuestro menu',
+      quick_replies: [
+        {
+          "content_type": "text",
+          "title": "¿Quieres una Pizza?",
+          "payload": "PIZZAS_PAYLOAD"
+        },
+        {
+          "content_type": "text",
+          "title": "Acerca de",
+          "payload": "ABOUT_PAYLOAD"
+        }
+      ]
     }
   }
 
+  senderActions(senderId)
   callSendApi(messageData)
 }
 
-const handlePostback = (senderId, payload) => {
+const handlePostBack = (senderId, payload) => {
   switch (payload) {
     case 'GET_STARTED_PUGPIZZA':
       console.log(payload)
       break
     default:
+      console.log(payload)
       break
   }
+}
+
+const senderActions = (senderId) => {
+  const messageData = {
+    recipient: {
+      id: senderId
+    },
+    sender_action: 'typing_on'
+  }
+  callSendApi(messageData)
 }
 
 const handleAttachments = (senderId, event) => {
