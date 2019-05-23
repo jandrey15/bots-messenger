@@ -54,7 +54,8 @@ const handleMessage = (senderId, event) => {
     // defaultMessage(senderId)
     // messageImage(senderId)
     // contactSuppport(senderId)
-    showLocations(senderId)
+    // showLocations(senderId)
+    receipt(senderId)
   } else if (event.attachments) {
     handleAttachments(senderId, event)
   }
@@ -334,7 +335,71 @@ const sizePizza = (senderId) => {
     }
   }
 
-  callSendApi(messageData);
+  senderActions(senderId)
+  callSendApi(messageData)
+}
+
+const receipt = (senderId) => {
+  const messageData = {
+    'recipient': {
+      'id': senderId
+    },
+    'message': {
+      'attachment': {
+        'type': 'template',
+        'payload': {
+          'template_type': 'receipt',
+          'recipient_name': 'Oscar Barajas',
+          'order_number': '123123',
+          'currency': 'MXN',
+          'payment_method': 'Efectivo',
+          'order_url': 'https://platzi.com/order/123',
+          'timestamp': '123123123',
+          'address': {
+            'street_1': 'Platzi HQ',
+            'street_2': '---',
+            'city': 'Mexico',
+            'postal_code': '543135',
+            'state': 'Mexico',
+            'country': 'Mexico'
+          },
+          'summary': {
+            'subtotal': 12.00,
+            'shipping_cost': 2.00,
+            'total_tax': 1.00,
+            'total_cost': 15.00
+          },
+          'adjustments': [
+            {
+              'name': 'Descuento frecuent',
+              'amount': 1.00
+            }
+          ],
+          'elements': [
+            {
+              'title': 'Pizza Pepperoni',
+              'subtitle': 'La mejor pizza de pepperoni',
+              'quantity': 1,
+              'price': 10,
+              'currency': 'MXN',
+              'image_url': 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'
+            },
+            {
+              'title': 'Bebida',
+              'subtitle': 'Jugo de Tamarindo',
+              'quantity': 1,
+              'price': 2,
+              'currency': 'MXN',
+              'image_url': 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'
+            }
+          ]
+        }
+      }
+    }
+  }
+
+  senderActions(senderId)
+  callSendApi(messageData)
 }
 
 app.listen(app.get('port'), () => {
