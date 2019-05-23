@@ -55,7 +55,8 @@ const handleMessage = (senderId, event) => {
     // messageImage(senderId)
     // contactSuppport(senderId)
     // showLocations(senderId)
-    receipt(senderId)
+    // receipt(senderId)
+    getLocation(senderId)
   } else if (event.attachments) {
     handleAttachments(senderId, event)
   }
@@ -130,6 +131,9 @@ const handleAttachments = (senderId, event) => {
       break
     case 'file':
       console.log(attachment_type)
+      break
+    case "location":
+      console.log(JSON.stringify(event))
       break
     default:
       console.log(attachment_type)
@@ -395,6 +399,25 @@ const receipt = (senderId) => {
           ]
         }
       }
+    }
+  }
+
+  senderActions(senderId)
+  callSendApi(messageData)
+}
+
+const getLocation = (senderId) => {
+  const messageData = {
+    'recipient': {
+      'id': senderId
+    },
+    'message': {
+      'text': 'Ahora ¿Puedes proporcionarnos tu ubicación?',
+      'quick_replies': [
+        {
+          'content_type': 'location'
+        }
+      ]
     }
   }
 
