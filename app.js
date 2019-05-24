@@ -4,8 +4,10 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 
+require('dotenv').config()
+
 // Debe ser secreto sin rastraer por git
-const access_token = 'EAAFs9lrCGZA0BAOCp6uFj8dVvGR4pbX1QhPxGuqZCuYANOOXnCBS7jAGL3p1ZCeZAb5iBfh6E8ZAzPTJuHoyj5hRdsQvup16ygtfRiwHxnZAeXAQkonLZAaiORZBK3IzXUKW607PRwuaeYk97l2F4OJ59ZCeqeee5OxjxZBVSlmtsPHCL9r2d4jamZB'
+const access_token = process.env.ACCESS_TOKEN
 
 const app = express()
 
@@ -18,7 +20,7 @@ app.get('/', (req, res) => {
 
 app.get('/webhook', (req, res) => {
   // El token no se debe mostrar a nadie tener en cuenta eso sin rastraer por git
-  if (req.query['hub.verify_token'] === 'pugpizza_token') {
+  if (req.query['hub.verify_token'] === process.env.VERIFY_TOKEN) {
     res.send(req.query['hub.challenge'])
   } else {
     res.send('Pug Pizza no tienes permisos')
