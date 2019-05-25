@@ -166,9 +166,10 @@ const callSendApi = (response) => {
   })
 }
 
+// https://developers.facebook.com/docs/messenger-platform/identity/user-profile
 const callProfileApi = (senderId) => {
   console.log('----------------------- ok ----------------')
-  request({
+  return request({
     'uri': `https://graph.facebook.com/${senderId}`,
     'qs': {
       'fields': 'first_name,last_name,profile_pic',
