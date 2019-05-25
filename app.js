@@ -70,7 +70,7 @@ const handleMessage = (senderId, event) => {
 const defaultMessage = (senderId, profile) => {
   console.log(profile)
   console.log(profile.first_name)
-  console.log(profile[first_name])
+  console.log(profile['first_name'])
   const messageData = {
     'recipient': {
       id: senderId
