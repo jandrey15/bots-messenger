@@ -55,6 +55,7 @@ const handleEvent = (senderId, event) => {
 // post -> https://planetachatbot.com/tutorial-como-construir-un-chatbot-con-facebook-messenger-de474ee93f92
 const handleMessage = (senderId, event) => {
   if (event.text) {
+    callProfileApi(senderId)
     defaultMessage(senderId)
     // messageImage(senderId)
     // contactSuppport(senderId)
@@ -67,15 +68,14 @@ const handleMessage = (senderId, event) => {
 }
 
 const defaultMessage = (senderId) => {
-  const profile = callProfileApi(senderId)
-  console.log(profile)
+  // console.log(profile)
   const messageData = {
     'recipient': {
       id: senderId
     },
     'message': {
       // text: 'Hola soy un bot de messenger y te invito a utilizar nuestro menu',
-      text: `Hola ${profile.first_name}`,
+      text: `Hola `,
       quick_replies: [
         {
           'content_type': 'text',
@@ -166,6 +166,7 @@ const callSendApi = (response) => {
 }
 
 const callProfileApi = (senderId) => {
+  console.log('----------------------- ok ----------------')
   request({
     'uri': `https://graph.facebook.com/${senderId}`,
     'qs': {
