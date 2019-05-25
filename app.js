@@ -179,8 +179,8 @@ const callProfileApi = (senderId) => {
       console.log('Ha ocurrido un error')
     } else {
       console.log('Response -> ')
-      console.log(response)
-      return response
+      console.log(response.body)
+      return response.body
     }
   })
 }
