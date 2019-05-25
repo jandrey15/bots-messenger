@@ -44,6 +44,7 @@ const handleEvent = (senderId, event) => {
     if (event.message.quick_reply) {
       handlePostBack(senderId, event.message.quick_reply.payload)
     } else {
+      console.log('event completo -> ' + event)
       handleMessage(senderId, event.message)
     }
     // handleMessage(senderId, event.message)
@@ -52,8 +53,10 @@ const handleEvent = (senderId, event) => {
   }
 }
 
+// post -> https://planetachatbot.com/tutorial-como-construir-un-chatbot-con-facebook-messenger-de474ee93f92
 const handleMessage = (senderId, event) => {
   if (event.text) {
+    console.log(event)
     defaultMessage(senderId)
     // messageImage(senderId)
     // contactSuppport(senderId)
