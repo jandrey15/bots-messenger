@@ -68,6 +68,7 @@ const handleMessage = (senderId, event) => {
 }
 
 const defaultMessage = (senderId, profile) => {
+  console.log(profile)
   const messageData = {
     'recipient': {
       id: senderId
@@ -178,7 +179,7 @@ const callProfileApi = (senderId) => {
     if(err) {
       console.log('Ha ocurrido un error')
     } else {
-      // console.log(response.body)
+      console.log(response.body)
       defaultMessage(senderId, response.body)
     }
   })
