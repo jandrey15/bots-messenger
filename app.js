@@ -177,9 +177,10 @@ const callProfileApi = (senderId) => {
   }, (err, response) => {
     if(err) {
       console.log('Ha ocurrido un error')
-      return response
     } else {
-      console.log('Mensaje enviado')
+      console.log('Response -> ')
+      console.log(response)
+      return response
     }
   })
 }
