@@ -44,7 +44,6 @@ const handleEvent = (senderId, event) => {
     if (event.message.quick_reply) {
       handlePostBack(senderId, event.message.quick_reply.payload)
     } else {
-      console.log(event)
       handleMessage(senderId, event.message)
     }
     // handleMessage(senderId, event.message)
@@ -68,13 +67,15 @@ const handleMessage = (senderId, event) => {
 }
 
 const defaultMessage = (senderId) => {
+  const profile = callProfileApi(senderId)
+  console.log(profile)
   const messageData = {
     'recipient': {
       id: senderId
     },
     'message': {
       // text: 'Hola soy un bot de messenger y te invito a utilizar nuestro menu',
-      text: 'Hola {{user_first_name}}',
+      text: `Hola ${profile.first_name}`,
       quick_replies: [
         {
           'content_type': 'text',
@@ -158,6 +159,24 @@ const callSendApi = (response) => {
   }, (err) => {
     if(err) {
       console.log('Ha ocurrido un error')
+    } else {
+      console.log('Mensaje enviado')
+    }
+  })
+}
+
+const callProfileApi = (senderId) => {
+  request({
+    'uri': `https://graph.facebook.com/${senderId}`,
+    'qs': {
+      'fields': 'first_name,last_name,profile_pic',
+      'access_token': access_token
+    },
+    'method': 'GET'
+  }, (err, response) => {
+    if(err) {
+      console.log('Ha ocurrido un error')
+      return response
     } else {
       console.log('Mensaje enviado')
     }
