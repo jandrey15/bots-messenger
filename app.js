@@ -175,13 +175,14 @@ const callProfileApi = (senderId) => {
       'access_token': access_token
     },
     'method': 'GET'
-  }, (err, response) => {
+  }, (err, response, body) => {
     if(err) {
       console.log('Ha ocurrido un error')
     } else {
       // console.log(response.body)
-      console.log(response.body.first_name)
-      defaultMessage(senderId, response.body.first_name)
+      console.log(body)
+      let json = JSON.parse(body)
+      defaultMessage(senderId, json)
     }
   })
 }
