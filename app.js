@@ -55,7 +55,6 @@ const handleEvent = (senderId, event) => {
 // post -> https://planetachatbot.com/tutorial-como-construir-un-chatbot-con-facebook-messenger-de474ee93f92
 const handleMessage = (senderId, event) => {
   if (event.text) {
-    callProfileApi(senderId)
     defaultMessage(senderId)
     // messageImage(senderId)
     // contactSuppport(senderId)
@@ -68,7 +67,9 @@ const handleMessage = (senderId, event) => {
 }
 
 const defaultMessage = (senderId) => {
-  // console.log(profile)
+  const profile = callProfileApi(senderId)
+  console.log('This is profile -> ')
+  console.log(profile)
   const messageData = {
     'recipient': {
       id: senderId
@@ -178,8 +179,7 @@ const callProfileApi = (senderId) => {
     if(err) {
       console.log('Ha ocurrido un error')
     } else {
-      console.log('Response -> ')
-      console.log(response.body)
+      // console.log(response.body)
       return response.body
     }
   })
