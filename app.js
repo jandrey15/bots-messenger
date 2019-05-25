@@ -55,7 +55,8 @@ const handleEvent = (senderId, event) => {
 // post -> https://planetachatbot.com/tutorial-como-construir-un-chatbot-con-facebook-messenger-de474ee93f92
 const handleMessage = (senderId, event) => {
   if (event.text) {
-    callProfileApi(senderId)
+    const data = callProfileApi(senderId)
+    console.log(data)
     // defaultMessage(senderId)
     // messageImage(senderId)
     // contactSuppport(senderId)
@@ -68,14 +69,14 @@ const handleMessage = (senderId, event) => {
 }
 
 const defaultMessage = (senderId, profile) => {
-  console.log(profile)
+  // console.log(profile)
   const messageData = {
     'recipient': {
       id: senderId
     },
     'message': {
       // text: 'Hola soy un bot de messenger y te invito a utilizar nuestro menu',
-      text: `Hola ${profile.first_name}`,
+      text: `Hello, I love you ${profile.first_name}`,
       quick_replies: [
         {
           'content_type': 'text',
@@ -168,6 +169,8 @@ const callSendApi = (response) => {
 // https://developers.facebook.com/docs/messenger-platform/identity/user-profile
 const callProfileApi = (senderId) => {
   console.log('----------------------- ok ----------------')
+  let response;
+
   request({
     'uri': `https://graph.facebook.com/${senderId}`,
     'qs': {
@@ -180,11 +183,14 @@ const callProfileApi = (senderId) => {
       console.log('Ha ocurrido un error')
     } else {
       // console.log(response.body)
-      console.log(body)
+      // console.log(body)
       let json = JSON.parse(body)
-      defaultMessage(senderId, json)
+      response = json
+      // defaultMessage(senderId, json)
     }
   })
+
+  return response
 }
 
 const showPizzas = (senderId) => {
