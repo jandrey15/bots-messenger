@@ -169,9 +169,8 @@ const callSendApi = (response) => {
 // https://developers.facebook.com/docs/messenger-platform/identity/user-profile
 const callProfileApi = (senderId) => {
   console.log('----------------------- ok ----------------')
-  let response;
 
-  request({
+  return request({
     'uri': `https://graph.facebook.com/${senderId}`,
     'qs': {
       'fields': 'first_name,last_name,profile_pic',
@@ -185,12 +184,10 @@ const callProfileApi = (senderId) => {
       // console.log(response.body)
       // console.log(body)
       let json = JSON.parse(body)
-      response = json
+      return json
       // defaultMessage(senderId, json)
     }
   })
-
-  return response
 }
 
 const showPizzas = (senderId) => {
