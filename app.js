@@ -54,12 +54,12 @@ const handleEvent = (senderId, event) => {
 
 const handleMessage = (senderId, event) => {
   if (event.text) {
-    // defaultMessage(senderId)
+    defaultMessage(senderId)
     // messageImage(senderId)
     // contactSuppport(senderId)
     // showLocations(senderId)
     // receipt(senderId)
-    getLocation(senderId)
+    // getLocation(senderId)
   } else if (event.attachments) {
     handleAttachments(senderId, event)
   }
@@ -71,7 +71,8 @@ const defaultMessage = (senderId) => {
       id: senderId
     },
     'message': {
-      text: 'Hola soy un bot de messenger y te invito a utilizar nuestro menu',
+      // text: 'Hola soy un bot de messenger y te invito a utilizar nuestro menu',
+      text: 'Hola {{user_first_name}}',
       quick_replies: [
         {
           'content_type': 'text',
